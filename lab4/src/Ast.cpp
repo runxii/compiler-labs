@@ -31,10 +31,10 @@ void BinaryExpr::output(int level)
             op_str = "sub";
             break;
         case AND:
-            op_str = "and";
+            op_str = "and"; // &&
             break;
         case OR:
-            op_str = "or";
+            op_str = "or"; // ||
             break;
         case LESS:
             op_str = "less";
@@ -43,37 +43,37 @@ void BinaryExpr::output(int level)
             op_str = "more";
             break;
         case GEQ:
-            op_str = "geq";
+            op_str = "geq"; //greater equal >=
             break;
         case LEQ:
-            op_str = "leq";
+            op_str = "leq"; //less equal <=
             break;
         case EQU:
-            op_str = "equ";
+            op_str = "equ"; //==
             break;
         case NEQ:
-            op_str = "neq";
+            op_str = "neq"; //!=
             break;
         case DIV:
-            op_str = "div";
+            op_str = "div"; 
             break;
         case MUL:
             op_str = "mul";
             break;
-        case PERC:
+        case MOD:
             op_str = "mod";
             break;
         case PLUSASSIGN:
-            op_str = "plusassign";
+            op_str = "plusassign"; //+=
             break;
         case MINUSASSIGN:
-            op_str = "minusassign";
+            op_str = "minusassign"; //-=
             break;
         case MULASSIGN:
-            op_str = "mulassign";
+            op_str = "mulassign"; // *=
             break;
         case DIVASSIGN:
-            op_str = "divassign";
+            op_str = "divassign"; // /=
             break;
 
     }
@@ -84,7 +84,19 @@ void BinaryExpr::output(int level)
 
 void SingleExpr::output(int level)
 {
-
+    std::string op_str;
+    switch(op) // matching operations
+    {
+        case ADD:
+            op_str = "add";
+            break;
+        case SUB:
+            op_str = "sub";
+            break;
+        case NOT:
+            op_str = "not";
+            break;
+    }
 }
 
 void Constant::output(int level)

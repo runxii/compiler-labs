@@ -30,7 +30,7 @@ private:
     int op;
     ExprNode *expr1, *expr2;
 public:
-    enum {ADD, SUB, DIV, MUL, PERC, AND, OR, LESS, MORE, ASSIGN, PLUSASSIGN, MINUSASSIGN, MULASSIGN, DIVASSIGN, EQU, GEQ, LEQ, NEQ};
+    enum {ADD, SUB, DIV, MUL, MOD, AND, OR, LESS, MORE, ASSIGN, PLUSASSIGN, MINUSASSIGN, MULASSIGN, DIVASSIGN, EQU, GEQ, LEQ, NEQ};
     BinaryExpr(SymbolEntry *se, int op, ExprNode*expr1, ExprNode*expr2) : ExprNode(se), op(op), expr1(expr1), expr2(expr2){};
     void output(int level);
 };
@@ -42,7 +42,7 @@ private:
     ExprNode *expr;
 public:
     enum {ADD, SUB, NOT};
-    SingleExpr(SymbolEntry *se, int op, ExprNode*expr1, ExprNode*expr2) : ExprNode(se), op(op), expr1(expr1), expr2(expr2){};
+    SingleExpr(SymbolEntry *se, int op, ExprNode*expr) : ExprNode(se), op(op), expr(expr){};
     void output(int level);   
 };
 
@@ -62,6 +62,15 @@ public:
 
 class StmtNode : public Node
 {};
+
+class SingleStmt : public StmtNode
+{
+private:
+    ExprNode* expr;
+public:
+    SingleStmt(ExprNode* expr) : expr(expr){};
+    void output(int level);
+};
 
 class CompoundStmt : public StmtNode
 {
@@ -87,6 +96,15 @@ private:
     Id *id;
 public:
     DeclStmt(Id *id) : id(id){};
+    void output(int level);
+};
+
+class ConstDeclStmt : public StmtNode
+{
+private:
+    Constant *constant;
+public:
+    ConstDeclStmt(Constant *constant) : constant(constant){};
     void output(int level);
 };
 

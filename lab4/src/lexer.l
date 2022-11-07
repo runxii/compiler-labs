@@ -182,7 +182,7 @@ WHITE [\t|\x20]
 }
 "%" {
     if(dump_tokens)
-        DEBUG_FOR_LAB4("PERC\t%");
+        DEBUG_FOR_LAB4("MOD\t%");
     return PERC;
 }
 ";" {
