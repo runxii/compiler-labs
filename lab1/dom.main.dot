@@ -1,0 +1,11 @@
+digraph "Dominator tree for 'main' function" {
+	label="Dominator tree for 'main' function";
+
+	Node0x219bf20 [shape=record,label="{%0:\l  %1 = alloca i32, align 4\l  %2 = call noundef nonnull align 8 dereferenceable(16)\l... %\"class.std::basic_istream\"* @_ZNSirsERi(%\"class.std::basic_istream\"* noundef\l... nonnull align 8 dereferenceable(16) @_ZSt3cin, i32* noundef nonnull align 4\l... dereferenceable(4) %1)\l  br label %3\l}"];
+	Node0x219bf20 -> Node0x219dff0;
+	Node0x219dff0 [shape=record,label="{%3:\l3:                                                \l  %.01 = phi i32 [ 2, %0 ], [ %8, %6 ]\l  %.0 = phi i32 [ 1, %0 ], [ %7, %6 ]\l  %4 = load i32, i32* %1, align 4\l  %5 = icmp sle i32 %.01, %4\l  br i1 %5, label %6, label %9\l}"];
+	Node0x219dff0 -> Node0x21afbc0;
+	Node0x219dff0 -> Node0x219ac60;
+	Node0x21afbc0 [shape=record,label="{%6:\l6:                                                \l  %7 = mul nsw i32 %.0, %.01\l  %8 = add nsw i32 %.01, 1\l  br label %3, !llvm.loop !6\l}"];
+	Node0x219ac60 [shape=record,label="{%9:\l9:                                                \l  %10 = call noundef nonnull align 8 dereferenceable(8)\l... %\"class.std::basic_ostream\"* @_ZNSolsEi(%\"class.std::basic_ostream\"* noundef\l... nonnull align 8 dereferenceable(8) @_ZSt4cout, i32 noundef %.0)\l  %11 = call noundef nonnull align 8 dereferenceable(8)\l... %\"class.std::basic_ostream\"* @_ZNSolsEPFRSoS_E(%\"class.std::basic_ostream\"*\l... noundef nonnull align 8 dereferenceable(8) %10, %\"class.std::basic_ostream\"*\l... (%\"class.std::basic_ostream\"*)* noundef\l... @_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_)\l  ret i32 0\l}"];
+}
