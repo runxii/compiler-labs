@@ -82,7 +82,7 @@ void BinaryExpr::output(int level)
     expr2->output(level + 4);
 }
 
-void SingleExpr::output(int level)
+void UnaryExpr::output(int level)
 {
     std::string op_str;
     switch(op) // matching operations
@@ -119,6 +119,43 @@ void Id::output(int level)
             name.c_str(), scope, type.c_str());
 }
 
+void ConstId::output(int level)
+{
+    std::string name, type;
+    int scope;
+    name = symbolEntry->toStr();
+    type = symbolEntry->getType()->toStr();
+    scope = dynamic_cast<IdentifierSymbolEntry*>(symbolEntry)->getScope();
+    fprintf(yyout, "%*cConstId\tname: %s\tscope: %d\ttype: %s\n", level, ' ',
+            name.c_str(), scope, type.c_str());
+}
+
+void IdQueue::output(int level)
+{
+fprintf(yyout, "%*cIdQueue\n", level, ' ');
+    for(long unsigned int i = 0; i < ids.size(); i++)
+    {
+        ids[i] -> output(level + 4);
+    }
+    for(long unsigned int i = 0; i < assigns.size(); i++)
+    {
+        assigns[i] -> output(level + 4);
+    }
+}
+
+void ConstIdQueue::output(int level)
+{
+    fprintf(yyout, "%*cConstIdQueue\n", level, ' ');
+    for(long unsigned int i = 0; i < constids.size(); i++)
+    {
+        constids[i] -> output(level + 4);
+    }
+    for(long unsigned int i = 0; i < assigns.size(); i++)
+    {
+        assigns[i] -> output(level + 4);
+    }
+}
+
 void CompoundStmt::output(int level)
 {
     fprintf(yyout, "%*cCompoundStmt\n", level, ' ');
@@ -135,7 +172,13 @@ void SeqNode::output(int level)
 void DeclStmt::output(int level)
 {
     fprintf(yyout, "%*cDeclStmt\n", level, ' ');
-    id->output(level + 4);
+    ids->output(level + 4);
+}
+
+void ConstDeclStmt::output(int level)
+{
+    fprintf(yyout, "%*cConstDeclStmt\n", level, ' ');
+    constids->output(level + 4);
 }
 
 void IfStmt::output(int level)
@@ -166,6 +209,50 @@ void AssignStmt::output(int level)
     expr->output(level + 4);
 }
 
+void SingleStmt::output(int level)
+{
+    fprintf(yyout, "%*cSingleStmt\n", level, ' ');
+    expr ->output(level + 4);
+}
+
+void EmptyStmt::output(int level)
+{
+    fprintf(yyout, "%*cEmptyStmt\n", level, ' ');
+}
+
+void FuncFParam::output(int level)
+{
+    std::string name, type;
+    int scope;
+    name = symbolEntry -> toStr();
+    type = symbolEntry -> getType() -> toStr();
+    scope = dynamic_cast<IdentifierSymbolEntry*>(symbolEntry) -> getScope();
+    fprintf(yyout, "%*cFuncFParam\tname:%s\tscope:%d\ttype:%s\n", level, ' ',
+            name.c_str(), scope, type.c_str());
+}
+
+void FuncFParams::output(int level)
+{
+    fprintf(yyout, "%*cFuncFParams\n", level, ' ');
+    for(long unsigned int i = 0; i < FPs.size(); i++)
+    {
+        FPs[i] -> output(level + 4);
+    }
+    for(long unsigned int i = 0; i < Assigns.size(); i++)
+    {
+        Assigns[i] -> output(level + 4);
+    }
+}
+
+void FuncRParams::output(int level)
+{
+    fprintf(yyout, "%*cFuncRParams\n", level, ' ');
+    for(long unsigned int i = 0; i < Exprs.size(); i++)
+    {
+        Exprs[i] -> output(level + 4);
+    }
+}
+
 void FunctionDef::output(int level)
 {
     std::string name, type;
@@ -173,5 +260,21 @@ void FunctionDef::output(int level)
     type = se->getType()->toStr();
     fprintf(yyout, "%*cFunctionDefine function name: %s, type: %s\n", level, ' ', 
             name.c_str(), type.c_str());
+    if(FPs != nullptr){
+        FPs -> output(level + 4);
+    }
     stmt->output(level + 4);
+}
+
+void FunctionCall::output(int level)
+{
+    std::string name, type;
+    name = symbolEntry->toStr();
+    type = symbolEntry->getType()->toStr();
+    fprintf(yyout, "%*cFunctionCall\tname: %s\ttype: %s\n", level, ' ',
+            name.c_str(), type.c_str());
+    if(RPs != nullptr)
+    {
+        RPs -> output(level + 4);
+    }
 }

@@ -2,6 +2,7 @@
 #define __AST_H__
 
 #include <fstream>
+#include <vector>
 
 class SymbolEntry;
 
@@ -35,14 +36,14 @@ public:
     void output(int level);
 };
 
-class SingleExpr : public ExprNode
+class UnaryExpr : public ExprNode
 {
 private:
     int op;
     ExprNode *expr;
 public:
     enum {ADD, SUB, NOT};
-    SingleExpr(SymbolEntry *se, int op, ExprNode*expr) : ExprNode(se), op(op), expr(expr){};
+    UnaryExpr(SymbolEntry *se, int op, ExprNode*expr) : ExprNode(se), op(op), expr(expr){};
     void output(int level);   
 };
 
@@ -57,11 +58,35 @@ class Id : public ExprNode
 {
 public:
     Id(SymbolEntry *se) : ExprNode(se){};
+    SymbolEntry* getSymbolEntry() {return symbolEntry;}
     void output(int level);
 };
 
+class ConstId : public ExprNode
+{
+public:
+    ConstId(SymbolEntry *se) : ExprNode(se){};
+    void output(int level);
+};
+
+class FuncFParam : public ExprNode
+{
+public:
+    FuncFParam(SymbolEntry *se) : ExprNode(se) {};
+    void output(int level);
+};
+
+class QueueNode : public Node
+{};
+
 class StmtNode : public Node
 {};
+
+class EmptyStmt : public StmtNode
+{
+public:
+    void output(int level);
+};
 
 class SingleStmt : public StmtNode
 {
@@ -90,24 +115,6 @@ public:
     void output(int level);
 };
 
-class DeclStmt : public StmtNode
-{
-private:
-    Id *id;
-public:
-    DeclStmt(Id *id) : id(id){};
-    void output(int level);
-};
-
-class ConstDeclStmt : public StmtNode
-{
-private:
-    Constant *constant;
-public:
-    ConstDeclStmt(Constant *constant) : constant(constant){};
-    void output(int level);
-};
-
 class IfStmt : public StmtNode
 {
 private:
@@ -129,15 +136,6 @@ public:
     void output(int level);
 };
 
-class ReturnStmt : public StmtNode
-{
-private:
-    ExprNode *retValue;
-public:
-    ReturnStmt(ExprNode*retValue) : retValue(retValue) {};
-    void output(int level);
-};
-
 class AssignStmt : public StmtNode
 {
 private:
@@ -148,15 +146,88 @@ public:
     void output(int level);
 };
 
+class IdQueue : public QueueNode
+{// in order to recognize int a,b,c;
+public:
+    std::vector<Id*> ids;
+    std::vector<AssignStmt*> assigns;
+    IdQueue(std::vector<Id*> ids, std::vector<AssignStmt*> assigns): ids(ids),assigns(assigns){};
+    void output(int level);
+};
+
+class ConstIdQueue : public QueueNode
+{// in order to recognize const int a,b,c;
+public:
+    std::vector<ConstId*> constids;
+    std::vector<AssignStmt*> assigns;
+    ConstIdQueue(std::vector<ConstId*> constids, std::vector<AssignStmt*> assigns): constids(constids),assigns(assigns){};
+    void output(int level);
+};
+
+class FuncRParams : public QueueNode
+{
+public:
+    std::vector<ExprNode*> Exprs;
+    FuncRParams(std::vector<ExprNode*> Exprs) : Exprs(Exprs){};
+    void output(int level);
+};
+
+class FuncFParams : public QueueNode
+{
+public:
+    std::vector<FuncFParam*> FPs;
+    std::vector<AssignStmt*> Assigns;
+    FuncFParams(std::vector<FuncFParam*> FPs, std::vector<AssignStmt*> Assigns) : FPs(FPs), Assigns(Assigns) {};
+    void output(int level);
+};
+
+class ReturnStmt : public StmtNode
+{
+private:
+    ExprNode *retValue;
+public:
+    ReturnStmt(ExprNode*retValue) : retValue(retValue) {};
+    void output(int level);
+};
+
+class DeclStmt : public StmtNode
+{
+private:
+    IdQueue *ids;
+public:
+    DeclStmt(IdQueue *ids) : ids(ids){};
+    void output(int level);
+};
+
+class ConstDeclStmt : public StmtNode
+{
+private:
+    ConstIdQueue *constids;
+public:
+    ConstDeclStmt(ConstIdQueue *constids) : constids(constids) {};
+    void output(int level);
+};
+
 class FunctionDef : public StmtNode
 {
 private:
     SymbolEntry *se;
+    FuncFParams *FPs;
     StmtNode *stmt;
 public:
-    FunctionDef(SymbolEntry *se, StmtNode *stmt) : se(se), stmt(stmt){};
+    FunctionDef(SymbolEntry *se, FuncFParams *FPs, StmtNode *stmt) : se(se), FPs(FPs), stmt(stmt) {};
     void output(int level);
 };
+
+
+class FunctionCall : public ExprNode
+{
+public:
+    FuncRParams *RPs;
+    FunctionCall(SymbolEntry *se, FuncRParams *RPs) : ExprNode(se), RPs(RPs) {};
+    void output(int level);
+};
+
 
 class Ast
 {

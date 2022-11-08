@@ -16,7 +16,6 @@ std::string VoidType::toStr()
 {
     return "void";
 }
-
 std::string FunctionType::toStr()
 {
     std::ostringstream buffer;

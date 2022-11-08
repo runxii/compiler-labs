@@ -183,7 +183,7 @@ WHITE [\t|\x20]
 "%" {
     if(dump_tokens)
         DEBUG_FOR_LAB4("MOD\t%");
-    return PERC;
+    return MOD;
 }
 ";" {
     if(dump_tokens)
@@ -257,6 +257,49 @@ WHITE [\t|\x20]
     yylval.itype = atoi(yytext);
     return INTEGER;
 }
+
+
+{HEX} {
+    if(dump_tokens)  
+        DEBUG_FOR_LAB4(yytext);
+    int all = 0;
+    string a  = yytext;
+    int len = a.length() - 2;
+    for(int i = 0; i < len; i++)
+    {
+        int temp1 = (pow(16, (len - i - 1)));
+        int temp2;
+        if(a[i + 2] >= '0' && a[i + 2] <= '9'){
+            temp2 = (a[i + 2] - '0');
+        }
+        else if(a[i + 2] >= 'A' && a[i + 2] <= 'F'){
+            temp2 = a[i + 2] - 'A' + 10;
+        }
+        else if(a[i + 2] >= 'a' && a[i + 2] <= 'f'){
+            temp2 = a[i + 2] - 'a' + 10;
+        }
+        all = all + temp1 * temp2;         
+    }
+    yylval.itype = all;
+    return INTEGER;
+}
+
+{OCT} {
+    if(dump_tokens)
+        DEBUG_FOR_LAB4(yytext);
+    string a  = yytext;
+    int len = a.length() - 1;
+    int all = 0;
+    for(int i = 0; i < len; i++)
+    {
+        //cout << i << ":" << (pow(8, (len - i - 1))) << ' ' << (a[i + 1] - '0') << endl;
+        int temp1 = (pow(8, (len - i - 1)));
+        int temp2 = (a[i + 1] - '0');
+        all = all + temp1 * temp2;         
+    }
+    yylval.itype = all;
+    return INTEGER;
+} 
 
 {ID} {
     if(dump_tokens)
