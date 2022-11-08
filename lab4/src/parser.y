@@ -1,4 +1,4 @@
-%code top{
+﻿%code top{
     #include <iostream>
     #include <assert.h>
     #include "parser.h"
@@ -145,7 +145,7 @@ LVal
         delete []$1;
     }
     ;
-//��������ʽ
+//基本表达式
 PrimaryExp
     :
     LVal {$$ = $1;}
@@ -156,7 +156,7 @@ PrimaryExp
     |
     LPAREN Exp RPAREN {$$=$2;}
     ;
-//��Ŀ����ʽ
+//单目表达式
 UnaryExp
     :
     PrimaryExp {$$=$1;}
@@ -204,7 +204,7 @@ UnaryExp
         $$ = new UnaryExpr(se, UnaryExpr::NOT, $2);
     }
     ;
-//AddExp�������������Ŀ��*��/��%
+//AddExp的产生式右部有MulExp，因为表达式当中Mul(*,/)的优先级应当高于Add(+,-)
 MulExp
     :
     UnaryExp {$$=$1;}
@@ -243,7 +243,7 @@ AddExp
         $$ = new BinaryExpr(se, BinaryExpr::SUB, $1, $3);
     }
     ;
-//��ϵ����ʽ
+//关系表达式
 RelExp
     :
     AddExp {$$ = $1;}
@@ -284,7 +284,7 @@ RelExp
         $$ = new BinaryExpr(se, BinaryExpr::EQU, $1, $3);
     }
     ;
-//�߼��룬���й�ϵ����ʽ����Ϊ��ϵ����ʽ�����ȼ�����
+//逻辑与运算
 LAndExp
     :
     RelExp {$$ = $1;}
@@ -295,7 +295,7 @@ LAndExp
         $$ = new BinaryExpr(se, BinaryExpr::AND, $1, $3);
     }
     ;
-//�߼���
+//逻辑或运算
 LOrExp
     :
     LAndExp {$$ = $1;}
@@ -306,7 +306,7 @@ LOrExp
         $$ = new BinaryExpr(se, BinaryExpr::OR, $1, $3);
     }
     ;
-//��������ֵ������
+//函数返回值的类型
 Type
     : INT {
         $$ = TypeSystem::intType;
@@ -315,7 +315,7 @@ Type
         $$ = TypeSystem::voidType;
     }
     ;
-//�����Ķ���ͳ�ʼ��
+//常量定义和初始化的产生式
 ConstDeclStmt
     :
     CONST Type ConstIdQueue SEMICOLON {$$=new ConstDeclStmt($3);}
@@ -323,13 +323,13 @@ ConstDeclStmt
 ConstIdQueue
     :
     ID ASSIGN Exp {
-    //����һ����������
-        std::vector<ConstId*> constids;//������
-        std::vector<AssignStmt*> assigns;//��ֵ����ʽ����ɳ�ʼ��
+    //ConstIdQueue表示多个名字
+        std::vector<ConstId*> constids;//a,b,c等常量名，表示名字的队列
+        std::vector<AssignStmt*> assigns;//表示对ConstIdQueue中不同常量进行赋值
         ConstIdQueue* temp = new ConstIdQueue(constids, assigns);
-        SymbolEntry* se = new IdentifierSymbolEntry(TypeSystem::intType, $1, identifiers -> getLevel());//���ұ���
+        SymbolEntry* se = new IdentifierSymbolEntry(TypeSystem::intType, $1, identifiers -> getLevel());//查表项
         identifiers->install($1, se);
-        ConstId *t = new ConstId(se);//Ϊ�˻��������������Լ���ֵ
+        ConstId *t = new ConstId(se);//将新的ConstId添加到ConstIdQueue中，方便返回值的统一
         temp -> constids.push_back(t);
         temp -> assigns.push_back(new AssignStmt(t, $3));
         $$ = temp;
@@ -337,19 +337,19 @@ ConstIdQueue
     }
     |
     ConstIdQueue COMMA ID ASSIGN Exp {
-    //constIdQueue ����Ϊ"a,b,c,d"�ĳ������֣���һ��������Ϊ�˽��bug������"a,b,c"��ConstIdQueue��"d"��ID
+    //constIdQueue是形为"a,b,c"的常量名队列，而ID表示"d"，$1,$2,$3合起来表示"a,b,c,d"
         ConstIdQueue *temp = $1;
         SymbolEntry *se;
-        se = new IdentifierSymbolEntry(TypeSystem::intType, $3, identifiers->getLevel());//û�а취ʶ����ΪStmt�����constIdQueue
+        se = new IdentifierSymbolEntry(TypeSystem::intType, $3, identifiers->getLevel());
         identifiers->install($3, se);
         ConstId *t = new ConstId(se);
-        temp -> constids.push_back(t);//��ID"d"���ӵ�ConstIdQueue"a,b,c"��
-        temp -> assigns.push_back(new AssignStmt(t, $5));//��ID�ĸ�ֵ
+        temp -> constids.push_back(t);//相当于把"d"这个ID添加到$1当中的ConstIDQueue中
+        temp -> assigns.push_back(new AssignStmt(t, $5));//把$5当中的赋值分别与常量名对应起来
         $$ = temp;
         delete []$3;
     }
     ;
-//�����Ķ���ͳ�ʼ��
+//变量定义与初始化， 逻辑与常量的类似
 DeclStmt
     :
     Type IdQueue SEMICOLON {$$=new DeclStmt($2);}

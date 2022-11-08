@@ -20,9 +20,8 @@ void Ast::output()
 
 void BinaryExpr::output(int level)
 {
-    // Ë«Ä¿±í´ïÊ½
     std::string op_str;
-    switch(op) // Æ¥Åäµ½¸Ã²Ù×÷·û¾Í½øÐÐÌø×ª£¬ÓÃÀ´½â¾öËãÊõ±í´ïÊ½µÄÎÊÌâ
+    switch(op) // æ“ä½œç¬¦ï¼Œè¿›è¡Œè·³è½¬
     {
         case ADD:
             op_str = "add";
@@ -78,7 +77,7 @@ void BinaryExpr::output(int level)
 
     }
     fprintf(yyout, "%*cBinaryExpr\top: %s\n", level, ' ', op_str.c_str());
-    expr1->output(level + 4); //×Ó½Úµã£¬¹Ê»á¸üÉîÒ»²ã£¬level+4
+    expr1->output(level + 4); //å› ä¸ºè¡¨è¾¾å¼åœ¨å­èŠ‚ç‚¹ä¸Šï¼Œæ‰€ä»¥æ¯ä¸ªexprçš„level+4ï¼Œè¡¨ç¤ºåœ¨è¯­æ³•æ ‘ä¸Šæ›´æ·±çš„å±‚æ¬¡
     expr2->output(level + 4);
 }
 
@@ -130,7 +129,7 @@ void ConstId::output(int level)
             name.c_str(), scope, type.c_str());
 }
 
-void IdQueue::output(int level)
+void IdQueue::output(int level) // a,b,c
 {
 fprintf(yyout, "%*cIdQueue\n", level, ' ');
     for(long unsigned int i = 0; i < ids.size(); i++)
@@ -239,7 +238,7 @@ void EmptyStmt::output(int level)
 
 void FuncFParam::output(int level)
 {
-    std::string name, type;
+    std::string name, type; //IdQueue
     int scope;
     name = symbolEntry -> toStr();
     type = symbolEntry -> getType() -> toStr();
