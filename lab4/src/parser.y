@@ -130,7 +130,7 @@ Cond
     :
     LOrExp {$$ = $1;}
     ;
-// left value
+//��ֵ
 LVal
     : ID {
         SymbolEntry *se;
@@ -145,6 +145,7 @@ LVal
         delete []$1;
     }
     ;
+//��������ʽ
 PrimaryExp
     :
     LVal {$$ = $1;}
@@ -155,11 +156,13 @@ PrimaryExp
     |
     LPAREN Exp RPAREN {$$=$2;}
     ;
+//��Ŀ����ʽ
 UnaryExp
     :
     PrimaryExp {$$=$1;}
     |
-    ID LPAREN RPAREN { // a()
+    ID LPAREN RPAREN 
+    { // a()
         SymbolEntry *se;
         se = identifiers->lookup($1);
         if(se == nullptr)
@@ -172,7 +175,8 @@ UnaryExp
         delete []$1;
     }
     |
-    ID LPAREN FuncRParams RPAREN { // a(param)
+    ID LPAREN FuncRParams RPAREN 
+    { // a(param)
         SymbolEntry *se;
         se = identifiers->lookup($1);
         if(se == nullptr)
@@ -195,11 +199,12 @@ UnaryExp
         $$ = new UnaryExpr(se, UnaryExpr::SUB, $2);
     }
     |
-    NOT UnaryExp {
+    NOT UnaryExp {//����!a
         SymbolEntry *se = new TemporarySymbolEntry(TypeSystem::intType, SymbolTable::getLabel());
         $$ = new UnaryExpr(se, UnaryExpr::NOT, $2);
     }
     ;
+//AddExp�������������Ŀ��*��/��%
 MulExp
     :
     UnaryExp {$$=$1;}
@@ -238,6 +243,7 @@ AddExp
         $$ = new BinaryExpr(se, BinaryExpr::SUB, $1, $3);
     }
     ;
+//��ϵ����ʽ
 RelExp
     :
     AddExp {$$ = $1;}
@@ -278,6 +284,7 @@ RelExp
         $$ = new BinaryExpr(se, BinaryExpr::EQU, $1, $3);
     }
     ;
+//�߼��룬���й�ϵ����ʽ����Ϊ��ϵ����ʽ�����ȼ�����
 LAndExp
     :
     RelExp {$$ = $1;}
@@ -288,6 +295,7 @@ LAndExp
         $$ = new BinaryExpr(se, BinaryExpr::AND, $1, $3);
     }
     ;
+//�߼���
 LOrExp
     :
     LAndExp {$$ = $1;}
@@ -298,6 +306,7 @@ LOrExp
         $$ = new BinaryExpr(se, BinaryExpr::OR, $1, $3);
     }
     ;
+//��������ֵ������
 Type
     : INT {
         $$ = TypeSystem::intType;
@@ -306,6 +315,7 @@ Type
         $$ = TypeSystem::voidType;
     }
     ;
+//�����Ķ���ͳ�ʼ��
 ConstDeclStmt
     :
     CONST Type ConstIdQueue SEMICOLON {$$=new ConstDeclStmt($3);}
@@ -313,12 +323,13 @@ ConstDeclStmt
 ConstIdQueue
     :
     ID ASSIGN Exp {
-        std::vector<ConstId*> constids;
-        std::vector<AssignStmt*> assigns;
+    //����һ����������
+        std::vector<ConstId*> constids;//������
+        std::vector<AssignStmt*> assigns;//��ֵ����ʽ����ɳ�ʼ��
         ConstIdQueue* temp = new ConstIdQueue(constids, assigns);
-        SymbolEntry* se = new IdentifierSymbolEntry(TypeSystem::intType, $1, identifiers -> getLevel());
+        SymbolEntry* se = new IdentifierSymbolEntry(TypeSystem::intType, $1, identifiers -> getLevel());//���ұ���
         identifiers->install($1, se);
-        ConstId *t = new ConstId(se);
+        ConstId *t = new ConstId(se);//Ϊ�˻��������������Լ���ֵ
         temp -> constids.push_back(t);
         temp -> assigns.push_back(new AssignStmt(t, $3));
         $$ = temp;
@@ -326,17 +337,19 @@ ConstIdQueue
     }
     |
     ConstIdQueue COMMA ID ASSIGN Exp {
+    //constIdQueue ����Ϊ"a,b,c,d"�ĳ������֣���һ��������Ϊ�˽��bug������"a,b,c"��ConstIdQueue��"d"��ID
         ConstIdQueue *temp = $1;
         SymbolEntry *se;
-        se = new IdentifierSymbolEntry(TypeSystem::intType, $3, identifiers->getLevel());
+        se = new IdentifierSymbolEntry(TypeSystem::intType, $3, identifiers->getLevel());//û�а취ʶ����ΪStmt�����constIdQueue
         identifiers->install($3, se);
         ConstId *t = new ConstId(se);
-        temp -> constids.push_back(t);
-        temp -> assigns.push_back(new AssignStmt(t, $5));
+        temp -> constids.push_back(t);//��ID"d"���ӵ�ConstIdQueue"a,b,c"��
+        temp -> assigns.push_back(new AssignStmt(t, $5));//��ID�ĸ�ֵ
         $$ = temp;
         delete []$3;
     }
     ;
+//�����Ķ���ͳ�ʼ��
 DeclStmt
     :
     Type IdQueue SEMICOLON {$$=new DeclStmt($2);}
@@ -391,6 +404,8 @@ IdQueue
         delete []$3;
     }
     ;
+
+// 在UnaryExp里使用
 FuncRParams
     :
     Exp
@@ -408,101 +423,59 @@ FuncRParams
         $$ = temp;
     }
     ;
-FuncFParams
-    :
-    Type ID
-    {
-        std::vector<FuncFParam*> FPs;
-        std::vector<AssignStmt*> Assigns;
-        FuncFParams *temp = new FuncFParams(FPs, Assigns);
-        SymbolEntry *se;
-        se = new IdentifierSymbolEntry($1, $2, identifiers->getLevel());
-        identifiers->install($2, se);
-        temp -> FPs.push_back(new FuncFParam(se));
-        $$ = temp;
-        delete []$2;
-    }
-    |
-    FuncFParams COMMA Type ID
-    {
-        FuncFParams *temp = $1;
-        SymbolEntry *se;
-        se = new IdentifierSymbolEntry($3, $4, identifiers->getLevel());
-        identifiers->install($4, se);
-        temp -> FPs.push_back(new FuncFParam(se));
-        $$ = temp;
-        delete []$4;
-    }
-    |
-    Type ID ASSIGN Exp
-    {
-        std::vector<FuncFParam*> FPs;
-        std::vector<AssignStmt*> Assigns;
-        FuncFParams *temp = new FuncFParams(FPs, Assigns);
-        SymbolEntry *se;
-        se = new IdentifierSymbolEntry($1, $2, identifiers->getLevel());
-        identifiers->install($2, se);
-        FuncFParam* t = new FuncFParam(se);
-        temp -> FPs.push_back(t);
-        temp -> Assigns.push_back(new AssignStmt(t, $4));
-        $$ = temp;
-        delete []$2;
-    }
-    |
-    FuncFParams COMMA Type ID ASSIGN Exp
-    {
-        FuncFParams *temp = $1;
-        SymbolEntry *se;
-        se = new IdentifierSymbolEntry($3, $4, identifiers->getLevel());
-        identifiers->install($4, se);
-        FuncFParam* t = new FuncFParam(se);
-        temp -> FPs.push_back(t);
-        temp -> Assigns.push_back(new AssignStmt(t, $6));
-        $$ = temp;
-        delete []$4;
-    }
-    ;
+// 函数定义
 FuncDef
-    :
-    Type ID LPAREN {
-        Type *funcType;
-        funcType = new FunctionType($1,{});
-        SymbolEntry *se = new IdentifierSymbolEntry(funcType, $2, identifiers->getLevel());
-        identifiers->install($2, se);
-        identifiers = new SymbolTable(identifiers);
-    }
-    RPAREN
-    BlockStmt
-    {
-        SymbolEntry *se;
-        se = identifiers->lookup($2);
-        assert(se != nullptr);
-        $$ = new FunctionDef(se, nullptr,$6);
-        SymbolTable *top = identifiers;
-        identifiers = identifiers->getPrev();
-        delete top;
-        delete []$2;
-    }
-    |
-    Type ID LPAREN {
-        Type *funcType;
-        funcType = new FunctionType($1,{});
-        SymbolEntry *se = new IdentifierSymbolEntry(funcType, $2, identifiers->getLevel());
-        identifiers->install($2, se);
-        identifiers = new SymbolTable(identifiers);
-    }
-    FuncFParams RPAREN
-    BlockStmt
-    {
-        SymbolEntry *se;
-        se = identifiers->lookup($2);
-        assert(se != nullptr);
-        $$ = new FunctionDef(se, $5 ,$7);
-        SymbolTable *top = identifiers;
-        identifiers = identifiers->getPrev();
-        delete top;
-        delete []$2;
-    }
+    :   Type ID { //int get
+            Type *funcType;
+            funcType = new FunctionType($1,{});
+            SymbolEntry *se = new IdentifierSymbolEntry(funcType, $2, identifiers->getLevel());
+            identifiers->install($2, se);
+            identifiers = new SymbolTable(identifiers);
+        }
+        LPAREN FuncParams {//(param1,param2
+            SymbolEntry *se;
+            se = identifiers->lookup($2);
+            assert(se != nullptr);
+            if($5!=nullptr){
+                // 将函数参数类型写入符号表
+                ((FunctionType*)(se->getType()))->setparamsType(((FuncDefParamsNode*)$5)->getParamsType());
+            }   
+        } 
+        RPAREN BlockStmt { // ) function body
+            SymbolEntry *se;
+            se = identifiers->lookup($2);
+            assert(se != nullptr);
+            $$ = new FunctionDef(se, (FuncDefParamsNode*)$5, $8); // $8是BlockStmt
+            SymbolTable *top = identifiers;
+            identifiers = identifiers->getPrev();
+            delete top;
+            delete []$2;
+        }
+    ;
+// 函数参数列表
+FuncParams
+    :   FuncParams COMMA FuncParam {
+            FuncDefParamsNode* node = (FuncDefParamsNode*)$1;
+            node->addNext(((DefNode*)$3)->getId());
+            $$ = node;
+        }
+    |   FuncParam {
+            FuncDefParamsNode* node = new FuncDefParamsNode();
+            node->addNext(((DefNode*)$1)->getId());
+            $$ = node;
+        }
+    |   %empty {
+            $$ = nullptr;
+        }
+    ;
+
+// 函数参数
+FuncParam
+    :   Type ID {
+            SymbolEntry *se = new IdentifierSymbolEntry($1, $2, identifiers->getLevel());
+            identifiers->install($2, se);
+            $$ = new DefNode(new Id(se), nullptr, false, false);
+        }
     ;
 %%
 

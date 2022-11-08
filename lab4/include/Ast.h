@@ -29,7 +29,7 @@ class BinaryExpr : public ExprNode
 {
 private:
     int op;
-    ExprNode *expr1, *expr2;
+    ExprNode *expr1, *expr2; //前项表达式和后项表达式
 public:
     enum {ADD, SUB, DIV, MUL, MOD, AND, OR, LESS, MORE, ASSIGN, PLUSASSIGN, MINUSASSIGN, MULASSIGN, DIVASSIGN, EQU, GEQ, LEQ, NEQ};
     BinaryExpr(SymbolEntry *se, int op, ExprNode*expr1, ExprNode*expr2) : ExprNode(se), op(op), expr1(expr1), expr2(expr2){};
@@ -37,7 +37,7 @@ public:
 };
 
 class UnaryExpr : public ExprNode
-{
+{//定义单目表达式的类
 private:
     int op;
     ExprNode *expr;
@@ -63,14 +63,14 @@ public:
 };
 
 class ConstId : public ExprNode
-{
+{//常量的ID具有和变量的ID不同的符号表entry，所以分为两个类来进行定义，但他们的功能和操作基本都相同
 public:
     ConstId(SymbolEntry *se) : ExprNode(se){};
     void output(int level);
 };
 
 class FuncFParam : public ExprNode
-{
+{//函数的参数列表，主要用于正常定义的函数，例如int a(b,c)
 public:
     FuncFParam(SymbolEntry *se) : ExprNode(se) {};
     void output(int level);

@@ -20,9 +20,9 @@ void Ast::output()
 
 void BinaryExpr::output(int level)
 {
-    // binary expression
+    // 双目表达式
     std::string op_str;
-    switch(op) // matching operations
+    switch(op) // 匹配到该操作符就进行跳转，用来解决算术表达式的问题
     {
         case ADD:
             op_str = "add";
@@ -78,7 +78,7 @@ void BinaryExpr::output(int level)
 
     }
     fprintf(yyout, "%*cBinaryExpr\top: %s\n", level, ' ', op_str.c_str());
-    expr1->output(level + 4);
+    expr1->output(level + 4); //子节点，故会更深一层，level+4
     expr2->output(level + 4);
 }
 
@@ -275,7 +275,7 @@ void FunctionDef::output(int level)
     std::string name, type;
     name = se->toStr();
     type = se->getType()->toStr();
-    fprintf(yyout, "%*cFunctionDefine function name: %s, type: %s\n", level, ' ', 
+    fprintf(yyout, "%*cFunctionDefine\tname: %s, type: %s\n", level, ' ', 
             name.c_str(), type.c_str());
     if(FPs != nullptr){
         FPs -> output(level + 4);
