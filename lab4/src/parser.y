@@ -39,7 +39,7 @@
 %token RETURN
 %token LINECOMMENTBEGIN LINECOMMENTELEMENT LINECOMMENTEND COMMENTBEIGN COMMENTELEMENT COMMENTEND
 
-%nterm <stmttype> Stmts Stmt AssignStmt BlockStmt IfStmt ReturnStmt
+%nterm <stmttype> Stmts Stmt AssignStmt BlockStmt IfStmt ReturnStmt WhileStmt
 %nterm <stmttype>  DeclStmt ConstDeclStmt FuncDef SingleStmt
 %nterm <exprtype> Exp UnaryExp AddExp MulExp Cond LOrExp PrimaryExp LVal RelExp LAndExp
 %nterm <type> Type
@@ -70,7 +70,10 @@ Stmt
     | DeclStmt {$$=$1;}
     | ConstDeclStmt {$$=$1;}
     | FuncDef {$$=$1;}
+    | WhileStmt {$$=$1;}
     | SEMICOLON {$$ = new EmptyStmt();}
+    | BREAK SEMICOLON {$$ = new BreakStmt();}
+    | CONTINUE SEMICOLON {$$ = new ContinueStmt();}
     | SingleStmt {$$=$1;}
     ;
 // assignment
@@ -100,6 +103,11 @@ IfStmt
     } 
     | IF LPAREN Cond RPAREN Stmt ELSE Stmt {
         $$ = new IfElseStmt($3, $5, $7);
+    }
+    ;
+WhileStmt
+    : WHILE LPAREN Cond RPAREN Stmt {
+        $$ = new WhileStmt($3, $5);
     }
     ;
 ReturnStmt

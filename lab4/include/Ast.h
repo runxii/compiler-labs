@@ -106,6 +106,20 @@ public:
     void output(int level);
 };
 
+class BreakStmt : public StmtNode
+{
+public:
+    BreakStmt() {};
+    void output(int level);
+};
+
+class ContinueStmt : public StmtNode
+{
+public:
+    ContinueStmt() {};
+    void output(int level);
+};
+
 class SeqNode : public StmtNode
 {
 private:
@@ -122,6 +136,16 @@ private:
     StmtNode *thenStmt;
 public:
     IfStmt(ExprNode *cond, StmtNode *thenStmt) : cond(cond), thenStmt(thenStmt){};
+    void output(int level);
+};
+
+class WhileStmt : public StmtNode
+{
+private:
+    ExprNode *cond;
+    StmtNode *loop;
+public:
+    WhileStmt(ExprNode *cond, StmtNode *loop) : cond(cond), loop(loop) {};
     void output(int level);
 };
 

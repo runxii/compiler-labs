@@ -1,0 +1,358 @@
+program
+    Sequence
+        Sequence
+            Sequence
+                Sequence
+                    DeclStmt
+                        IdQueue
+                            Id	name: a	scope: 0	type: int
+                            Id	name: b	scope: 0	type: int
+                            Id	name: d	scope: 0	type: int
+                    FunctionDefine function name: set_a, type: int()
+                        FuncFParams
+                            FuncFParam	name:val	scope:1	type:int
+                        CompoundStmt
+                            Sequence
+                                AssignStmt
+                                    Id	name: a	scope: 0	type: int
+                                    Id	name: val	scope: 1	type: int
+                                ReturnStmt
+                                    Id	name: a	scope: 0	type: int
+                FunctionDefine function name: set_b, type: int()
+                    FuncFParams
+                        FuncFParam	name:val	scope:1	type:int
+                    CompoundStmt
+                        Sequence
+                            AssignStmt
+                                Id	name: b	scope: 0	type: int
+                                Id	name: val	scope: 1	type: int
+                            ReturnStmt
+                                Id	name: b	scope: 0	type: int
+            FunctionDefine function name: set_d, type: int()
+                FuncFParams
+                    FuncFParam	name:val	scope:1	type:int
+                CompoundStmt
+                    Sequence
+                        AssignStmt
+                            Id	name: d	scope: 0	type: int
+                            Id	name: val	scope: 1	type: int
+                        ReturnStmt
+                            Id	name: d	scope: 0	type: int
+        FunctionDefine function name: main, type: int()
+            CompoundStmt
+                Sequence
+                    Sequence
+                        Sequence
+                            Sequence
+                                Sequence
+                                    Sequence
+                                        Sequence
+                                            Sequence
+                                                Sequence
+                                                    Sequence
+                                                        Sequence
+                                                            Sequence
+                                                                Sequence
+                                                                    Sequence
+                                                                        Sequence
+                                                                            Sequence
+                                                                                Sequence
+                                                                                    Sequence
+                                                                                        Sequence
+                                                                                            Sequence
+                                                                                                Sequence
+                                                                                                    Sequence
+                                                                                                        Sequence
+                                                                                                            Sequence
+                                                                                                                Sequence
+                                                                                                                    Sequence
+                                                                                                                        Sequence
+                                                                                                                            Sequence
+                                                                                                                                Sequence
+                                                                                                                                    Sequence
+                                                                                                                                        Sequence
+                                                                                                                                            Sequence
+                                                                                                                                                Sequence
+                                                                                                                                                    Sequence
+                                                                                                                                                        Sequence
+                                                                                                                                                            Sequence
+                                                                                                                                                                Sequence
+                                                                                                                                                                    AssignStmt
+                                                                                                                                                                        Id	name: a	scope: 0	type: int
+                                                                                                                                                                        IntegerLiteral	value: 2	type: int
+                                                                                                                                                                    AssignStmt
+                                                                                                                                                                        Id	name: b	scope: 0	type: int
+                                                                                                                                                                        IntegerLiteral	value: 3	type: int
+                                                                                                                                                                IfStmt
+                                                                                                                                                                    BinaryExpr	op: and
+                                                                                                                                                                        FunctionCall	name: set_a	type: int()
+                                                                                                                                                                            FuncRParams
+                                                                                                                                                                                IntegerLiteral	value: 0	type: int
+                                                                                                                                                                        FunctionCall	name: set_b	type: int()
+                                                                                                                                                                            FuncRParams
+                                                                                                                                                                                IntegerLiteral	value: 1	type: int
+                                                                                                                                                                    EmptyStmt
+                                                                                                                                                            SingleStmt
+                                                                                                                                                                FunctionCall	name: putint	type: void
+                                                                                                                                                                    FuncRParams
+                                                                                                                                                                        Id	name: a	scope: 0	type: int
+                                                                                                                                                        SingleStmt
+                                                                                                                                                            FunctionCall	name: putch	type: void
+                                                                                                                                                                FuncRParams
+                                                                                                                                                                    IntegerLiteral	value: 32	type: int
+                                                                                                                                                    SingleStmt
+                                                                                                                                                        FunctionCall	name: putint	type: void
+                                                                                                                                                            FuncRParams
+                                                                                                                                                                Id	name: b	scope: 0	type: int
+                                                                                                                                                SingleStmt
+                                                                                                                                                    FunctionCall	name: putch	type: void
+                                                                                                                                                        FuncRParams
+                                                                                                                                                            IntegerLiteral	value: 32	type: int
+                                                                                                                                            AssignStmt
+                                                                                                                                                Id	name: a	scope: 0	type: int
+                                                                                                                                                IntegerLiteral	value: 2	type: int
+                                                                                                                                        AssignStmt
+                                                                                                                                            Id	name: b	scope: 0	type: int
+                                                                                                                                            IntegerLiteral	value: 3	type: int
+                                                                                                                                    IfStmt
+                                                                                                                                        BinaryExpr	op: and
+                                                                                                                                            FunctionCall	name: set_a	type: int()
+                                                                                                                                                FuncRParams
+                                                                                                                                                    IntegerLiteral	value: 0	type: int
+                                                                                                                                            FunctionCall	name: set_b	type: int()
+                                                                                                                                                FuncRParams
+                                                                                                                                                    IntegerLiteral	value: 1	type: int
+                                                                                                                                        EmptyStmt
+                                                                                                                                SingleStmt
+                                                                                                                                    FunctionCall	name: putint	type: void
+                                                                                                                                        FuncRParams
+                                                                                                                                            Id	name: a	scope: 0	type: int
+                                                                                                                            SingleStmt
+                                                                                                                                FunctionCall	name: putch	type: void
+                                                                                                                                    FuncRParams
+                                                                                                                                        IntegerLiteral	value: 32	type: int
+                                                                                                                        SingleStmt
+                                                                                                                            FunctionCall	name: putint	type: void
+                                                                                                                                FuncRParams
+                                                                                                                                    Id	name: b	scope: 0	type: int
+                                                                                                                    SingleStmt
+                                                                                                                        FunctionCall	name: putch	type: void
+                                                                                                                            FuncRParams
+                                                                                                                                IntegerLiteral	value: 10	type: int
+                                                                                                                ConstDeclStmt
+                                                                                                                    ConstIdQueue
+                                                                                                                        ConstId	name: c	scope: 2	type: int
+                                                                                                                        AssignStmt
+                                                                                                                            ConstId	name: c	scope: 2	type: int
+                                                                                                                            IntegerLiteral	value: 1	type: int
+                                                                                                            AssignStmt
+                                                                                                                Id	name: d	scope: 0	type: int
+                                                                                                                IntegerLiteral	value: 2	type: int
+                                                                                                        IfStmt
+                                                                                                            BinaryExpr	op: and
+                                                                                                                BinaryExpr	op: geq
+                                                                                                                    Id	name: c	scope: 2	type: int
+                                                                                                                    IntegerLiteral	value: 1	type: int
+                                                                                                                FunctionCall	name: set_d	type: int()
+                                                                                                                    FuncRParams
+                                                                                                                        IntegerLiteral	value: 3	type: int
+                                                                                                            EmptyStmt
+                                                                                                    SingleStmt
+                                                                                                        FunctionCall	name: putint	type: void
+                                                                                                            FuncRParams
+                                                                                                                Id	name: d	scope: 0	type: int
+                                                                                                SingleStmt
+                                                                                                    FunctionCall	name: putch	type: void
+                                                                                                        FuncRParams
+                                                                                                            IntegerLiteral	value: 32	type: int
+                                                                                            IfStmt
+                                                                                                BinaryExpr	op: or
+                                                                                                    BinaryExpr	op: leq
+                                                                                                        Id	name: c	scope: 2	type: int
+                                                                                                        IntegerLiteral	value: 1	type: int
+                                                                                                    FunctionCall	name: set_d	type: int()
+                                                                                                        FuncRParams
+                                                                                                            IntegerLiteral	value: 4	type: int
+                                                                                                EmptyStmt
+                                                                                        SingleStmt
+                                                                                            FunctionCall	name: putint	type: void
+                                                                                                FuncRParams
+                                                                                                    Id	name: d	scope: 0	type: int
+                                                                                    SingleStmt
+                                                                                        FunctionCall	name: putch	type: void
+                                                                                            FuncRParams
+                                                                                                IntegerLiteral	value: 10	type: int
+                                                                                IfStmt
+                                                                                    BinaryExpr	op: geq
+                                                                                        IntegerLiteral	value: 16	type: int
+                                                                                        BinaryExpr	op: sub
+                                                                                            IntegerLiteral	value: 3	type: int
+                                                                                            BinaryExpr	op: add
+                                                                                                IntegerLiteral	value: 2	type: int
+                                                                                                IntegerLiteral	value: 1	type: int
+                                                                                    CompoundStmt
+                                                                                        SingleStmt
+                                                                                            FunctionCall	name: putch	type: void
+                                                                                                FuncRParams
+                                                                                                    IntegerLiteral	value: 65	type: int
+                                                                            IfStmt
+                                                                                BinaryExpr	op: neq
+                                                                                    BinaryExpr	op: sub
+                                                                                        IntegerLiteral	value: 25	type: int
+                                                                                        IntegerLiteral	value: 7	type: int
+                                                                                    BinaryExpr	op: sub
+                                                                                        IntegerLiteral	value: 36	type: int
+                                                                                        BinaryExpr	op: mul
+                                                                                            IntegerLiteral	value: 6	type: int
+                                                                                            IntegerLiteral	value: 3	type: int
+                                                                                SingleStmt
+                                                                                    FunctionCall	name: putch	type: void
+                                                                                        FuncRParams
+                                                                                            IntegerLiteral	value: 66	type: int
+                                                                        IfStmt
+                                                                            BinaryExpr	op: neq
+                                                                                BinaryExpr	op: less
+                                                                                    IntegerLiteral	value: 1	type: int
+                                                                                    IntegerLiteral	value: 8	type: int
+                                                                                BinaryExpr	op: mod
+                                                                                    IntegerLiteral	value: 7	type: int
+                                                                                    IntegerLiteral	value: 2	type: int
+                                                                            CompoundStmt
+                                                                                SingleStmt
+                                                                                    FunctionCall	name: putch	type: void
+                                                                                        FuncRParams
+                                                                                            IntegerLiteral	value: 67	type: int
+                                                                    IfStmt
+                                                                        BinaryExpr	op: equ
+                                                                            BinaryExpr	op: more
+                                                                                IntegerLiteral	value: 3	type: int
+                                                                                IntegerLiteral	value: 4	type: int
+                                                                            IntegerLiteral	value: 0	type: int
+                                                                        CompoundStmt
+                                                                            SingleStmt
+                                                                                FunctionCall	name: putch	type: void
+                                                                                    FuncRParams
+                                                                                        IntegerLiteral	value: 68	type: int
+                                                                IfStmt
+                                                                    BinaryExpr	op: leq
+                                                                        BinaryExpr	op: equ
+                                                                            IntegerLiteral	value: 1	type: int
+                                                                            IntegerLiteral	value: 102	type: int
+                                                                        IntegerLiteral	value: 63	type: int
+                                                                    SingleStmt
+                                                                        FunctionCall	name: putch	type: void
+                                                                            FuncRParams
+                                                                                IntegerLiteral	value: 69	type: int
+                                                            IfStmt
+                                                                BinaryExpr	op: equ
+                                                                    BinaryExpr	op: sub
+                                                                        IntegerLiteral	value: 5	type: int
+                                                                        IntegerLiteral	value: 6	type: int
+                                                                SingleStmt
+                                                                    FunctionCall	name: putch	type: void
+                                                                        FuncRParams
+                                                                            IntegerLiteral	value: 70	type: int
+                                                        SingleStmt
+                                                            FunctionCall	name: putch	type: void
+                                                                FuncRParams
+                                                                    IntegerLiteral	value: 10	type: int
+                                                    DeclStmt
+                                                        IdQueue
+                                                            Id	name: i0	scope: 2	type: int
+                                                            Id	name: i1	scope: 2	type: int
+                                                            Id	name: i2	scope: 2	type: int
+                                                            Id	name: i3	scope: 2	type: int
+                                                            Id	name: i4	scope: 2	type: int
+                                                            AssignStmt
+                                                                Id	name: i0	scope: 2	type: int
+                                                                IntegerLiteral	value: 0	type: int
+                                                            AssignStmt
+                                                                Id	name: i1	scope: 2	type: int
+                                                                IntegerLiteral	value: 1	type: int
+                                                            AssignStmt
+                                                                Id	name: i2	scope: 2	type: int
+                                                                IntegerLiteral	value: 2	type: int
+                                                            AssignStmt
+                                                                Id	name: i3	scope: 2	type: int
+                                                                IntegerLiteral	value: 3	type: int
+                                                            AssignStmt
+                                                                Id	name: i4	scope: 2	type: int
+                                                                IntegerLiteral	value: 4	type: int
+                                                WhileStmt
+                                                    BinaryExpr	op: and
+                                                        Id	name: i0	scope: 2	type: int
+                                                        Id	name: i1	scope: 2	type: int
+                                                    SingleStmt
+                                                        FunctionCall	name: putch	type: void
+                                                            FuncRParams
+                                                                IntegerLiteral	value: 32	type: int
+                                            IfStmt
+                                                BinaryExpr	op: or
+                                                    Id	name: i0	scope: 2	type: int
+                                                    Id	name: i1	scope: 2	type: int
+                                                SingleStmt
+                                                    FunctionCall	name: putch	type: void
+                                                        FuncRParams
+                                                            IntegerLiteral	value: 67	type: int
+                                        IfStmt
+                                            BinaryExpr	op: or
+                                                BinaryExpr	op: geq
+                                                    Id	name: i0	scope: 2	type: int
+                                                    Id	name: i1	scope: 2	type: int
+                                                BinaryExpr	op: leq
+                                                    Id	name: i1	scope: 2	type: int
+                                                    Id	name: i0	scope: 2	type: int
+                                            SingleStmt
+                                                FunctionCall	name: putch	type: void
+                                                    FuncRParams
+                                                        IntegerLiteral	value: 72	type: int
+                                    IfStmt
+                                        BinaryExpr	op: and
+                                            BinaryExpr	op: geq
+                                                Id	name: i2	scope: 2	type: int
+                                                Id	name: i1	scope: 2	type: int
+                                            BinaryExpr	op: neq
+                                                Id	name: i4	scope: 2	type: int
+                                                Id	name: i3	scope: 2	type: int
+                                        CompoundStmt
+                                            SingleStmt
+                                                FunctionCall	name: putch	type: void
+                                                    FuncRParams
+                                                        IntegerLiteral	value: 73	type: int
+                                IfStmt
+                                    BinaryExpr	op: or
+                                        BinaryExpr	op: and
+                                            BinaryExpr	op: equ
+                                                Id	name: i0	scope: 2	type: int
+                                            BinaryExpr	op: less
+                                                Id	name: i3	scope: 2	type: int
+                                                Id	name: i3	scope: 2	type: int
+                                        BinaryExpr	op: geq
+                                            Id	name: i4	scope: 2	type: int
+                                            Id	name: i4	scope: 2	type: int
+                                    CompoundStmt
+                                        SingleStmt
+                                            FunctionCall	name: putch	type: void
+                                                FuncRParams
+                                                    IntegerLiteral	value: 74	type: int
+                            IfStmt
+                                BinaryExpr	op: or
+                                    BinaryExpr	op: equ
+                                        Id	name: i0	scope: 2	type: int
+                                    BinaryExpr	op: and
+                                        BinaryExpr	op: less
+                                            Id	name: i3	scope: 2	type: int
+                                            Id	name: i3	scope: 2	type: int
+                                        BinaryExpr	op: geq
+                                            Id	name: i4	scope: 2	type: int
+                                            Id	name: i4	scope: 2	type: int
+                                SingleStmt
+                                    FunctionCall	name: putch	type: void
+                                        FuncRParams
+                                            IntegerLiteral	value: 75	type: int
+                        SingleStmt
+                            FunctionCall	name: putch	type: void
+                                FuncRParams
+                                    IntegerLiteral	value: 10	type: int
+                    ReturnStmt
+                        IntegerLiteral	value: 0	type: int
