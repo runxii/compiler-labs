@@ -1,0 +1,41 @@
+int a, b, d;
+
+int set_a(int val) { a = val; return a; }
+int set_b(int val) { b = val; return b; }
+int set_d(int val) { d = val; return d; }
+
+int main()
+{
+    a = 2; b = 3;
+    set_a(0);
+    putint(a); putch(32);
+    putint(b); putch(32);
+
+    a = 2; b = 3;
+    set_a(0) ;
+    putint(a); putch(32);
+    putint(b); putch(10);
+
+    const int c = 1;
+    d = 2;
+    if (c >= 1 ) ;
+    set_d(3);
+    putint(d); putch(32);
+    if (c <= 1 ) {}
+    putint(d); putch(10);
+
+    if (16 >= (3 - (2 + 1))) { putch(65); }
+    if ((25 - 7) != (36 - 6 * 3)) putch(66);
+    putch(68);
+    putch(70);
+    putch(10);
+
+    int i0 = 0, i1 = 1, i2 = 2, i3 = 3, i4 = 4;
+    putch(67);
+    putch(73);
+    putch(74);
+    putch(75);
+    putch(10);
+
+    return 0;
+}
